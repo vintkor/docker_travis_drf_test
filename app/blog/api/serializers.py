@@ -23,16 +23,26 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     link = serializers.HyperlinkedIdentityField(view_name='post-detail')
+    author_username = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
         fields = (
             'id',
-            'category_id',
+            'category',
             'title',
+            'author_username',
             'created',
             'link',
         )
         read_only_fields = (
             'id',
         )
+
+    def get_author_username(self, obj):
+        return obj.author.username if obj.author else None
+
+    def update(self, instance, validated_data):
+        if not instance.author:
+            instance.author = self.context['request'].user
+        return super(PostSerializer, self).update(instance, validated_data)

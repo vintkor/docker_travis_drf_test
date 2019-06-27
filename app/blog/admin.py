@@ -20,6 +20,7 @@ class Category(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         'title',
+        'author',
         'category',
         'created',
     )

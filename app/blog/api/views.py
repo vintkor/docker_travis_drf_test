@@ -20,7 +20,7 @@ def blog_root(request, format=None):
     })
 
 
-class CategoryListApiView(generics.ListAPIView):
+class CategoryListApiView(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
     permission_classes = [permissions.AllowAny]
@@ -32,13 +32,19 @@ class CategoryDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class PostListApiView(generics.ListAPIView):
+class PostListApiView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
     permission_classes = [permissions.AllowAny]
+
+    # def perform_create(self, serializer):
+    #     serializer.save(author=self.request.user)
 
 
 class PostDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
     permission_classes = [permissions.AllowAny]
+
+    # def perform_update(self, serializer):
+    #     serializer.save(author=self.request.user)
