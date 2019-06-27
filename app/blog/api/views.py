@@ -23,28 +23,25 @@ def blog_root(request, format=None):
 class CategoryListApiView(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class CategoryDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class PostListApiView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    # def perform_create(self, serializer):
-    #     serializer.save(author=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 class PostDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    permission_classes = [permissions.AllowAny]
-
-    # def perform_update(self, serializer):
-    #     serializer.save(author=self.request.user)
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
